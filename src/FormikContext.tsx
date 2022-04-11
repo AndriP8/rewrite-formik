@@ -19,6 +19,8 @@ export const FormikContext = React.createContext<ContextValues<any>>({
   handleSubmit: () => {}
 });
 
+export const useFormikContext = () => React.useContext(FormikContext);
+
 const Formik = <T,>(props: FormikProps<T>) => {
   const formik = useFormik({
     initialValues: props.initialValues,
