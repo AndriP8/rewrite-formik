@@ -1,27 +1,27 @@
-import React from "react";
+import useFormik from "./useFormik";
 
 function App() {
-  const [values, setValues] = React.useState({ email: "", password: "" });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    alert(JSON.stringify(values, null, 2));
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <div className="App">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="wrapper-input-field">
           <label htmlFor="email">Email addres</label>
           <input
             type="email"
             name="email"
             id="email"
-            value={values.email}
-            onChange={handleChange}
+            value={formik.values.email}
+            onChange={formik.handleChange}
           />
         </div>
         <div className="wrapper-input-field">
@@ -30,8 +30,8 @@ function App() {
             type="password"
             name="password"
             id="password"
-            value={values.password}
-            onChange={handleChange}
+            value={formik.values.password}
+            onChange={formik.handleChange}
           />
         </div>
         <button type="submit">Submit</button>
