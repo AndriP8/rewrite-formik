@@ -3,6 +3,7 @@ import useFormik, { UseFormikParam } from "./useFormik";
 
 interface ContextValues<T> {
   values: T;
+  errors: Record<string, string>;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -15,6 +16,7 @@ interface FormikProps<T> extends UseFormikParam<T> {
 
 export const FormikContext = React.createContext<ContextValues<any>>({
   values: {},
+  errors: {},
   handleChange: () => {},
   handleSubmit: () => {}
 });
@@ -22,10 +24,7 @@ export const FormikContext = React.createContext<ContextValues<any>>({
 export const useFormikContext = () => React.useContext(FormikContext);
 
 const Formik = <T,>(props: FormikProps<T>) => {
-  const formik = useFormik({
-    initialValues: props.initialValues,
-    onSubmit: props.onSubmit
-  });
+  const formik = useFormik({ ...props });
 
   const renderChildren = () =>
     typeof props.children === "function"
