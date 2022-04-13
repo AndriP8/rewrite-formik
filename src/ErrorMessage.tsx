@@ -1,14 +1,13 @@
-import { useFormikContext } from "./FormikContext";
+import useField from "./useField";
 
 interface ErrorMessageProps {
   name: string;
 }
 
 const ErrorMessage = (props: ErrorMessageProps) => {
-  const formikContext = useFormikContext();
-  const errorMessage = formikContext.errors[props.name];
+  const { error } = useField(props.name);
 
-  return errorMessage !== undefined ? <p>{errorMessage}</p> : null;
+  return error !== undefined ? <p>{error}</p> : null;
 };
 
 export default ErrorMessage;
