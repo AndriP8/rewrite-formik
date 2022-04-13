@@ -1,6 +1,7 @@
 import React from "react";
 
 type FormErrors = Record<string, string>;
+type FormTouches = Record<string, boolean>;
 
 export interface UseFormikParam<T> {
   initialValues: T;
@@ -8,27 +9,34 @@ export interface UseFormikParam<T> {
   validate: (values: T) => FormErrors;
 }
 
-const useFormik = <T extends {}>(param: UseFormikParam<T>) => {
+const useFormik = <T extends {}>({
+  initialValues,
+  onSubmit,
+  validate
+}: UseFormikParam<T>) => {
   const [errors, setErrors] = React.useState<FormErrors>({});
-  const [values, setValues] = React.useState(param.initialValues);
+  const [values, setValues] = React.useState(initialValues);
+  const [touches, setTouches] = React.useState<FormTouches>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+    setTouches({ ...touches, [e.target.name]: true });
   };
+
+  React.useEffect(() => {
+    const errorMessages = validate(values);
+    setErrors(errorMessages);
+  }, [validate, values]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const errorMessages = param.validate(values);
-    setErrors(errorMessages);
-
-    const isFormValid = Object.keys(errorMessages).length === 0;
+    const isFormValid = Object.keys(errors).length === 0;
     if (isFormValid) {
-      param.onSubmit(values);
+      onSubmit(values);
     }
   };
 
-  return { values, errors, handleChange, handleSubmit };
+  return { values, errors, handleChange, handleSubmit, touches };
 };
 
 export default useFormik;

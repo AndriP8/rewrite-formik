@@ -8,18 +8,9 @@ interface FieldProps {
 }
 
 const Field = (props: FieldProps) => {
-  const { value, onChange } = useField(props.name);
+  const { error, ...field } = useField(props.name);
 
-  return (
-    <input
-      type={props.type}
-      name={props.name}
-      id={props.id}
-      placeholder={props.placeholder}
-      value={value}
-      onChange={onChange}
-    />
-  );
+  return <input {...props} {...field} />;
 };
 
 export default Field;

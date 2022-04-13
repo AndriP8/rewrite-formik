@@ -5,9 +5,9 @@ interface ErrorMessageProps {
 }
 
 const ErrorMessage = (props: ErrorMessageProps) => {
-  const { error } = useField(props.name);
+  const { error, touched } = useField(props.name);
 
-  return error !== undefined ? <p>{error}</p> : null;
+  return touched && error !== undefined ? <p>{error}</p> : null;
 };
 
 export default ErrorMessage;

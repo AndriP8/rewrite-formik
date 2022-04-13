@@ -4,6 +4,7 @@ import useFormik, { UseFormikParam } from "./useFormik";
 interface ContextValues<T> {
   values: T;
   errors: Record<string, string>;
+  touches: Record<string, boolean>;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -17,6 +18,7 @@ interface FormikProps<T> extends UseFormikParam<T> {
 export const FormikContext = React.createContext<ContextValues<any>>({
   values: {},
   errors: {},
+  touches: {},
   handleChange: () => {},
   handleSubmit: () => {}
 });

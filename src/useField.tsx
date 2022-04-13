@@ -1,18 +1,17 @@
-import React from "react";
 import { useFormikContext } from "./FormikContext";
 
-const useField = (param: string) => {
+const useField = (name: string) => {
   const formikContext = useFormikContext();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    formikContext.handleChange(e);
-  };
+  const onChange = formikContext.handleChange;
 
-  const value = formikContext.values[param];
+  const value = formikContext.values[name];
 
-  const error = formikContext.errors[param];
+  const error = formikContext.errors[name];
 
-  return { value, error, onChange };
+  const touched = formikContext.touches[name];
+
+  return { value, error, onChange, touched };
 };
 
 export default useField;
