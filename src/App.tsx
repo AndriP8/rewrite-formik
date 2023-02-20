@@ -1,9 +1,7 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
-import React from "react";
-import ErrorMessage from "./ErrorMessage";
-import Field from "./Field";
-import Form from "./Form";
-import Formik from "./FormikContext";
+import ErrorMessage from './ErrorMessage';
+import Field from './Field';
+import Form from './Form';
+import Formik from './FormikContext';
 
 interface FormValues {
   email: string;
@@ -12,23 +10,25 @@ interface FormValues {
 
 function App() {
   const initialValues: FormValues = {
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   };
 
   const validate = (values: FormValues) => {
     const errors: Record<string, string> = {};
+    const emailPattern = /^[^@]+@[^@]+\.[^@]+$/;
+    const email = values.email.match(emailPattern) ?? '';
 
-    if (values.email === "") {
-      errors.email = "Required";
-    } else if (values.email !== "andri@gmail.com") {
-      errors.email = "Invalid email address";
+    if (values.email === '') {
+      errors.email = 'Required';
+    } else if (values.email !== email[0]) {
+      errors.email = 'Invalid email address';
     }
 
-    if (values.password === "") {
-      errors.password = "Required";
+    if (values.password === '') {
+      errors.password = 'Required';
     } else if (values.password.length < 8) {
-      errors.password = "Must be 8 or more character";
+      errors.password = 'Must be 8 or more character';
     }
 
     return errors;
@@ -64,9 +64,7 @@ function App() {
             />
             <ErrorMessage name="password" />
           </div>
-          <button role={"button"} type="submit">
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </Form>
       </Formik>
     </div>

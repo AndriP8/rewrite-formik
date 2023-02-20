@@ -1,5 +1,5 @@
-import React from "react";
-import useFormik, { UseFormikParam } from "./useFormik";
+import React from 'react';
+import useFormik, { UseFormikParam } from './useFormik';
 
 interface ContextValues<T> {
   values: T;
@@ -20,16 +20,20 @@ export const FormikContext = React.createContext<ContextValues<any>>({
   errors: {},
   touches: {},
   handleChange: () => {},
-  handleSubmit: () => {}
+  handleSubmit: () => {},
 });
 
 export const useFormikContext = () => React.useContext(FormikContext);
 
-const Formik = <T,>(props: FormikProps<T>) => {
-  const formik = useFormik({ ...props });
+const Formik = <T extends {}>(props: FormikProps<T>) => {
+  const formik = useFormik({
+    initialValues: props.initialValues,
+    onSubmit: props.onSubmit,
+    validate: props.validate,
+  });
 
   const renderChildren = () =>
-    typeof props.children === "function"
+    typeof props.children === 'function'
       ? props.children({ ...formik })
       : props.children;
 
